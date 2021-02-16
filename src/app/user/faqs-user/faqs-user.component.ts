@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { EmailSendingService } from 'src/app/service/email-sending.service';
 
 @Component({
   selector: 'app-faqs-user',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FaqsUserComponent implements OnInit {
 
-  constructor() { }
+  faqForm: FormGroup;
+  message: string = null;
 
-  ngOnInit(): void {
+  constructor(private sendEmail: EmailSendingService) {}
+
+  ngOnInit(){
+    this.faqForm = new FormGroup(
+      {
+        "name": new FormControl(null, [Validators.required]),
+        "email": new FormControl(null, [Validators.required, Validators.email]),
+        "message": new FormControl(null, [Validators.required])
+      }
+    );
   }
 
+  onSubmit()
+  {
+    this.sendEmail.sendEmail(this.faqForm)
+    .subscribe(response => {
+        this.message = "Message Sent Successfully"
+        this.faqForm.reset();
+      }
+    );
+  }
 }
