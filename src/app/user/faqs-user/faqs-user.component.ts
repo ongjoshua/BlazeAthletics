@@ -24,6 +24,11 @@ export class FaqsUserComponent implements OnInit {
     );
   }
 
+  onCancel()
+  {
+    this.faqForm.reset();
+  }
+
   onSubmit()
   {
     this.sendEmail.sendEmail(this.faqForm)
