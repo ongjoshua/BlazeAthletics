@@ -16,6 +16,6 @@ export class AdminWriteData
 
     logAdminEntry(postData:{date: string})
     {
-     return this.http.post('https://blaze-athletics-firebase-default-rtdb.firebaseio.com/adminLog.json', postData);
+     return this.http.post('https://blaze-athletics-firebase-default-rtdb.firebaseio.com/admins.json', 'null');
     }
 }
