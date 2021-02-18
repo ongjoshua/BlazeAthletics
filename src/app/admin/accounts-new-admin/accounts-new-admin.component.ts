@@ -25,6 +25,11 @@ export class AccountsNewAdminComponent implements OnInit {
     );
   }
 
+  onClear()
+  {
+    this.addAccountForm.reset();
+  }
+
   onSubmit()
   {
 
