@@ -14,11 +14,11 @@
   
   
       <div class="col-sm-9">      
-        <form>
+        <form [formGroup] = "addAccountForm" (ngSubmit)="onSubmit()">
             <div class="row"> 
           <div class="form-group col-sm-6">
             <label for="text">Name</label>
-            <input type="text" class="form-control" id="name" >
+            <input type="text" class="form-control" id="name" formControlName="name">
           </div>
           <div class="form-group col-sm-6">
             <label for="uname">Username:</label>
@@ -26,7 +26,7 @@
           </div>
           <div class="form-group col-sm-6">
             <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" >
+            <input type="email" class="form-control" id="email" formControlName="email">
           </div>
           <div class="form-group col-sm-6">
             <label for="role">Role:</label>
@@ -38,23 +38,23 @@
           </div>
           <div class="form-group col-sm-6">
             <label for="contum">Contact Number:</label>
-            <input type="text" class="form-control" id="contum" >
+            <input type="text" class="form-control" id="contum" formControlName="contactNumber">
           </div>
           <div class="form-group col-sm-6">
             <label for="addr">Address:</label>
-            <input type="text" class="form-control" id="addr" >
+            <input type="text" class="form-control" id="addr" formControlName="address">
           </div>
           <div class="form-group col-sm-6">
             <label for="passwd">Password:</label>
-            <input type="password" class="form-control" id="passwd">
+            <input type="password" class="form-control" id="passwd" formControlName="password">
           </div>
           <div class="form-group col-sm-12 text-center">
               <div class="row">
                 <div class="col-sm-6"> 
-              <button type="submit" class="btn btn-black">Add Account</button>
+              <button type="submit" class="btn btn-black" [disabled]="!addAccountForm.valid">Add Account</button>
             </div>
              <div class="col-sm-6"> 
-              <button type="reset" class="btn btn-white">Clear</button>
+              <button type="button" class="btn btn-white">Clear</button>
             </div>  
               </div>
 
