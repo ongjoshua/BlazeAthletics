@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { throwError } from "rxjs";
 import { AuthenticationService } from "./authentication.service";
 
 @Injectable({

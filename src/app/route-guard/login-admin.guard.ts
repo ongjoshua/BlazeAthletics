@@ -5,22 +5,22 @@ import { map, take } from "rxjs/operators";
 import { AdminAuthServicer } from "../service/admin-auth.service";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn:'root'
 })
-export class AdminGuard implements CanActivate
+export class LoginAdminGuard implements CanActivate
 {
     constructor(private authService: AdminAuthServicer, private router: Router){}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Promise<boolean | UrlTree > | Observable<boolean | UrlTree>
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Promise <boolean | UrlTree > | Observable<boolean | UrlTree>
     {
         return this.authService.admin.pipe(take(1),
             map(user=>{
             const isAuth = !!user;
-            if(isAuth)
+            if(!isAuth)
             {
                 return true;        
             }
-            return this.router.createUrlTree(['/login-admin']);
+            return this.router.createUrlTree(['dashboard-admin']);
         }));
     }
 }

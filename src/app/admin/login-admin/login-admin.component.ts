@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AdminAuthServicer } from 'src/app/service/admin-auth.service';
 import { AdminWriteData } from 'src/app/service/admin-write-data.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -16,7 +17,7 @@ export class LoginAdminComponent implements OnInit {
   errorMessage:string = null;
 
 
-  constructor(private authService: AuthenticationService, private logAdminEntry: AdminWriteData, private router: Router) { }
+  constructor(private authService: AdminAuthServicer, private logAdminEntry: AdminWriteData, private router: Router) { }
 
   ngOnInit(){
     this.adminLogin = new FormGroup({
@@ -37,13 +38,10 @@ export class LoginAdminComponent implements OnInit {
     (responseData => {
       console.log(responseData);
       this.logAdminEntry.logAdminEntry({date: "Admin logged in at " + this.date}).subscribe(response => {
-        this.authService.isAdmin = true;
         this.router.navigate(['/dashboard-admin']);
-
-        localStorage.setItem('adminData', JSON.stringify(this.authService.isAdmin));
       }, 
         error => {
-          localStorage.removeItem('userData');
+          localStorage.removeItem('adminData');
           this.errorHandling(error);
         });
     }, errorMessage =>{

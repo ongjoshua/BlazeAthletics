@@ -56,6 +56,8 @@ import { AuthenticationInterceptorService } from './service/authentication.inter
 import { UserAuthenticationGuard } from './route-guard/user.authentication.guard';
 import { SignInGuard } from './route-guard/sign-in.guard';
 import { AdminGuard } from './route-guard/admin.guard';
+import { AdminAuthInterceptorService } from './service/adminauth.interceptor.service';
+import { LoginAdminGuard } from './route-guard/login-admin.guard';
 
 @NgModule({
   declarations: [
@@ -120,7 +122,7 @@ import { AdminGuard } from './route-guard/admin.guard';
       {path: 'check-out', component:CheckoutUserComponent},
       {path: 'my-account', component: MyAccountUserComponent, canActivate:[UserAuthenticationGuard]},
       {path: 'selected-item', component:SelectedItemUserComponent},
-      {path: 'login-admin', component: LoginAdminComponent},
+      {path: 'login-admin', component: LoginAdminComponent, canActivate:[LoginAdminGuard]},
       {path: 'dashboard-admin', component: DashboardAdminComponent, canActivate:[AdminGuard]},
       {path: 'inventory', component:InventoryAdminComponent, canActivate:[AdminGuard]},
       {path: 'product-edit', component: ProductEditAdminComponent, canActivate:[AdminGuard]},
@@ -143,6 +145,11 @@ import { AdminGuard } from './route-guard/admin.guard';
     {
       provide:HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptorService,
+      multi: true
+    },
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass: AdminAuthInterceptorService,
       multi: true
     }
   ],

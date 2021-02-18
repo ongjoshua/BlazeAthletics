@@ -2,30 +2,21 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, throwError } from "rxjs";
-import { UserModel } from "../models/user-model";
 import { catchError, tap } from "rxjs/operators";
-
-export interface AuthResponseData
-{
-    idToken: string;
-    email: string;
-    refreshToken: string;
-    expiresIn: string;
-    localId: string;
-    registered?: boolean;
-}
+import { UserModel } from "../models/user-model";
+import { AuthenticationService, AuthResponseData } from "./authentication.service";
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
-export class AuthenticationService
+export class AdminAuthServicer
 {
-    user = new BehaviorSubject<UserModel>(null);
+    admin = new BehaviorSubject<UserModel>(null);
 
     public userToken:string = null;
     private tokenExpirationTimer: any;
 
-    constructor(private http: HttpClient, private router: Router){}
+    constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService){}
 
 /**
  * 
@@ -45,7 +36,7 @@ export class AuthenticationService
             password: password,
             returnSecureToken: true
         }).pipe(
-            catchError(this.handleError), 
+            catchError(this.authService.handleError), 
             tap(resData => {
             this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);    
         }));
@@ -69,7 +60,7 @@ export class AuthenticationService
             password: password,
             returnSecureToken: true
         }).pipe(
-            catchError(this.handleError), 
+            catchError(this.authService.handleError), 
             tap(resData => {
             this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
         }));
@@ -90,9 +81,8 @@ export class AuthenticationService
           _token: string,
           _tokenExpirationDate: string
           //converts the string data into JSON
-      } = JSON.parse(localStorage.getItem('userData'));
+      } = JSON.parse(localStorage.getItem('adminData'));
 
-      const adminConfirm = JSON.parse(localStorage.getItem('adminData'));
 
       //if there is no user data, return nothing.
         if(!userData)
@@ -110,7 +100,7 @@ export class AuthenticationService
 
         if(loadedUser.token)
         {
-            this.user.next(loadedUser);
+            this.admin.next(loadedUser);
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.autoLogout(expirationDuration);
         }
@@ -126,10 +116,9 @@ export class AuthenticationService
          * and stops the timer that will automatically log the user out
          */
 
-        this.user.next(null);
-        this.router.navigate(['/login-user']);
-        localStorage.removeItem('userData');
-
+        this.admin.next(null);
+        this.router.navigate(['/login-admin']);
+        localStorage.removeItem('adminData');
         if(this.tokenExpirationTimer)
         {
             clearTimeout(this.tokenExpirationTimer);
@@ -161,47 +150,13 @@ export class AuthenticationService
 
         const expirationDate = new Date(new Date().getTime() + expiresIn *1000);
         const user = new UserModel(email, localId, token, expirationDate);
-        this.user.next(user);
+        this.admin.next(user);
         this.userToken = localId;
 
         //timer expects milliseconds, expiresIn is in seconds.
         this.autoLogout(expiresIn * 1000);
 
         //storing the user data in the browser storage. Converts the javascript JSON into a string.
-        localStorage.setItem('userData', JSON.stringify(user));
-    }
-
-    public handleError(errorRes: HttpErrorResponse)
-    {
-
-        /**
-         * handles the error that could be returned by firebase
-         * and swaps out the firebase error code with a more user-friendly
-         * message based on the code
-         * 
-         * firebase error code is in firebase auth API
-         */
-
-        let errorMessage = 'An unknown error occured';
-
-        //if there is no error code, throw the default error message
-        if(!errorRes.error || !errorRes.error.error)
-        {
-            return throwError(errorMessage);
-        }
-
-        switch(errorRes.error.error.message)
-        {
-          case 'EMAIL_EXISTS':
-            errorMessage = 'This email already exists!';
-            break;
-          case 'INVALID_PASSWORD':  
-          case 'EMAIL_NOT_FOUND':
-            errorMessage = 'Email or password was not correct';
-            break;
-          default:
-              errorMessage = 'An Error Occurred';    
-        }
-        return throwError(errorMessage);
+        localStorage.setItem('adminData', JSON.stringify(user));
     }
 }
