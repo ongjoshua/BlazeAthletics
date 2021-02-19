@@ -1,12 +1,12 @@
 import { HttpHandler, HttpParams, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { exhaustMap, take } from "rxjs/operators";
-import { AdminAuthServicer } from "./admin-auth.service";
+import { AdminAuthService } from "./admin-auth.service";
 
 @Injectable()
 export class AdminAuthInterceptorService 
 {
-    constructor(private authService: AdminAuthServicer){}
+    constructor(private authService: AdminAuthService){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler)
     {
@@ -19,8 +19,7 @@ export class AdminAuthInterceptorService
 
             const modifiedReq = req.clone({
                     params: new HttpParams().set('auth', user.token)});
-                    console.log(modifiedReq);
-            return next.handle(modifiedReq);
+                    return next.handle(modifiedReq);
         }));
     }
 }

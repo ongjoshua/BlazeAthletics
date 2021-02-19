@@ -9,7 +9,7 @@ import { AuthenticationService, AuthResponseData } from "./authentication.servic
 @Injectable({
     providedIn: 'root'
 })
-export class AdminAuthServicer
+export class AdminAuthService
 {
     admin = new BehaviorSubject<UserModel>(null);
 
@@ -42,6 +42,16 @@ export class AdminAuthServicer
         }));
     }
 
+    adminSignUp(email: string, password: string)
+    {
+      return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCVs_D6J3MVqnPqyt1B2gaHwaPZsyJ8cXc',{
+        email: email,
+        password: password,
+        returnSecureToken: true
+        }).pipe(
+            catchError(this.authService.handleError)
+        );
+    }
     /**
  * 
  * @param email 

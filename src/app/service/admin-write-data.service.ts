@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "./authentication.service";
@@ -8,13 +8,22 @@ import { AuthenticationService } from "./authentication.service";
 })
 export class AdminWriteData
 {
+    adminData = {};
+    loggingData = {};
     constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService){}
 
 
     date: string;
 
-    logAdminEntry(postData:{date: string})
+    logAdminEntry(adminUID: string, date: string)
     {
-     return this.http.post('https://blaze-athletics-firebase-default-rtdb.firebaseio.com/admins.json', 'null');
+     this.loggingData[adminUID] = "Logged in at: " + date   
+     return this.http.patch('https://blaze-athletics-firebase-default-rtdb.firebaseio.com/adminLog.json', this.loggingData);
+    }
+
+    addAdmin(adminUID: string)
+    {
+    this.adminData[adminUID]  = true; 
+     return this.http.patch('https://blaze-athletics-firebase-default-rtdb.firebaseio.com/admins.json', this.adminData);
     }
 }

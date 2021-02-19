@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { AdminAuthServicer } from './service/admin-auth.service';
+import { AdminAuthService } from './service/admin-auth.service';
 import { AuthenticationService } from './service/authentication.service';
 
 
@@ -12,7 +12,7 @@ export class AppComponent implements OnInit{
   title = 'BlazeAthletics';
 
   constructor(private authService: AuthenticationService,
-    private adminAuthService: AdminAuthServicer){}
+    private adminAuthService: AdminAuthService){}
 
   ngOnInit()
   {

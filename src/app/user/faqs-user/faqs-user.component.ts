@@ -11,6 +11,7 @@ export class FaqsUserComponent implements OnInit {
 
   faqForm: FormGroup;
   message: string = null;
+  errorMessage: string = null;
 
   constructor(private sendEmail: EmailSendingService) {}
 
@@ -33,8 +34,11 @@ export class FaqsUserComponent implements OnInit {
   {
     this.sendEmail.sendEmail(this.faqForm)
     .subscribe(response => {
-        this.message = "Message Sent Successfully"
+        this.message = "Message Sent Successfully";
         this.faqForm.reset();
+      }, error => 
+      {
+        this.errorMessage = "Email was not sent";
       }
     );
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AdminAuthServicer } from 'src/app/service/admin-auth.service';
+import { AdminAuthService } from 'src/app/service/admin-auth.service';
 import { AdminWriteData } from 'src/app/service/admin-write-data.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -17,7 +17,7 @@ export class LoginAdminComponent implements OnInit {
   errorMessage:string = null;
 
 
-  constructor(private authService: AdminAuthServicer, private logAdminEntry: AdminWriteData, private router: Router) { }
+  constructor(private authService: AdminAuthService, private logAdminEntry: AdminWriteData, private router: Router) { }
 
   ngOnInit(){
     this.adminLogin = new FormGroup({
@@ -36,8 +36,8 @@ export class LoginAdminComponent implements OnInit {
 
     this.authService.login(this.adminLogin.value.username, this.adminLogin.value.password).subscribe
     (responseData => {
-      console.log(responseData);
-      this.logAdminEntry.logAdminEntry({date: "Admin logged in at " + this.date}).subscribe(response => {
+      this.logAdminEntry.logAdminEntry(responseData.localId, this.date).subscribe(
+        response => {
         this.router.navigate(['/dashboard-admin']);
       }, 
         error => {
@@ -56,7 +56,6 @@ export class LoginAdminComponent implements OnInit {
     {
       case 401:
         this.errorMessage = "Unauthorized email or password";
-        console.log(this.errorMessage);
     }
   }
 }
