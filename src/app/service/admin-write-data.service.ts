@@ -12,9 +12,6 @@ export class AdminWriteData
     loggingData = {};
     constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService){}
 
-
-    date: string;
-
     logAdminEntry(adminUID: string, date: string)
     {
      this.loggingData[adminUID] = "Logged in at: " + date   
