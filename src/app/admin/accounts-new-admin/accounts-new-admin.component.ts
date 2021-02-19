@@ -39,6 +39,7 @@ export class AccountsNewAdminComponent implements OnInit {
     this.adminAuth.adminSignUp(this.addAccountForm.value.email, this.addAccountForm.value.password).subscribe(responseData => 
       {
         console.log(responseData.localId);
+        this.onClear();
         this.adminWrite.addAdmin(responseData.localId).subscribe();
         this.message = "Account added successfully!";
       }, error => 

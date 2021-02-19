@@ -32,7 +32,7 @@ export class LoginAdminComponent implements OnInit {
   onSubmit()
   {
 
-    this.date = new Date().toUTCString();
+    this.date = new Date().toLocaleString();
 
     this.authService.login(this.adminLogin.value.username, this.adminLogin.value.password).subscribe
     (responseData => {

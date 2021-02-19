@@ -27,6 +27,7 @@ export class LoginUserComponent implements OnInit {
   onCancel()
   {
     this.loginForm.reset();
+    this.router.navigate(['/']);
   }
 
   onSubmit(){
