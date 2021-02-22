@@ -52,6 +52,29 @@ export class AdminAuthService
             catchError(this.authService.handleError)
         );
     }
+
+    adminSignOut(idToken: string)
+    {
+        console.log(idToken);
+      return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyCVs_D6J3MVqnPqyt1B2gaHwaPZsyJ8cXc',
+        {
+        idToken: idToken 
+        }
+      ).pipe(
+          catchError(this.authService.handleError)
+      );
+    }
+
+    authenticate(email: string, password: string)
+    {
+       return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCVs_D6J3MVqnPqyt1B2gaHwaPZsyJ8cXc',{
+            email: email,
+            password: password,
+            returnSecureToken: true
+        }).pipe(
+            catchError(this.authService.handleError));
+    }
+
     /**
  * 
  * @param email 

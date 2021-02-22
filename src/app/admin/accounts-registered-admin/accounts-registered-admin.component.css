@@ -5,3 +5,9 @@ svg{
     margin-right: 1em;
     color: black;
 }
+
+a.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
+}

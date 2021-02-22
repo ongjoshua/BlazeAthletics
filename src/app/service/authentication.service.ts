@@ -200,6 +200,7 @@ export class AuthenticationService
             errorMessage = 'Email or password was not correct';
             break;
           default:
+              console.log(errorRes.error.error.message);
               errorMessage = 'An Error Occurred';    
         }
         return throwError(errorMessage);

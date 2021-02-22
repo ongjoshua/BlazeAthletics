@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AdminData } from 'src/app/models/admin-data-model';
 import { AdminAuthService } from 'src/app/service/admin-auth.service';
+import { AdminDataServices } from 'src/app/service/admin-data.service';
 import { AdminWriteData } from 'src/app/service/admin-write-data.service';
 
 @Component({
@@ -13,9 +15,9 @@ export class AccountsNewAdminComponent implements OnInit {
   addAccountForm: FormGroup;
   errorMessage: string = null;
   message: string = null;
+  
 
-  constructor(private adminAuth: AdminAuthService, private adminWrite: AdminWriteData) { }
-
+  constructor(private adminAuth: AdminAuthService, private adminWrite: AdminWriteData, private adminDataService: AdminDataServices) { }
   ngOnInit()
   {
     this.addAccountForm = new FormGroup(
@@ -36,12 +38,25 @@ export class AccountsNewAdminComponent implements OnInit {
 
   onSubmit()
   {
-    this.adminAuth.adminSignUp(this.addAccountForm.value.email, this.addAccountForm.value.password).subscribe(responseData => 
+    const name = this.addAccountForm.value.name;
+    const email = this.addAccountForm.value.email;
+    const password = this.addAccountForm.value.password;
+    const contactNumber = this.addAccountForm.value.contactNumber;
+    const lastLogin = "Admin has not logged in yet";
+
+    this.adminAuth.adminSignUp(email, password).subscribe(responseData => 
       {
-        console.log(responseData.localId);
-        this.onClear();
-        this.adminWrite.addAdmin(responseData.localId).subscribe();
-        this.message = "Account added successfully!";
+
+          this.adminDataService.addAdmin(new AdminData(name, responseData.localId, email, contactNumber))
+
+        this.adminWrite.addAdmin(responseData.localId).subscribe(
+          response => {
+            this.adminWrite.putAdminData();
+            this.adminWrite.logAdminEntry(responseData.localId, "Admin not logged in yet").subscribe();
+            this.message = "Account added successfully!";
+            this.onClear();
+          }
+        );
       }, error => 
       {
         this.errorMessage = error;
