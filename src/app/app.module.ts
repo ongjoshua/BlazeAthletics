@@ -58,6 +58,7 @@ import { SignInGuard } from './route-guard/sign-in.guard';
 import { AdminGuard } from './route-guard/admin.guard';
 import { AdminAuthInterceptorService } from './service/adminauth.interceptor.service';
 import { LoginAdminGuard } from './route-guard/login-admin.guard';
+import { EditAdminGuard } from './route-guard/edit-admin.guard';
 
 @NgModule({
   declarations: [
@@ -129,7 +130,7 @@ import { LoginAdminGuard } from './route-guard/login-admin.guard';
       {path: 'product-new', component: ProductNewAdminComponent, canActivate:[AdminGuard]},
       {path: 'accounts-registered', component: AccountsRegisteredAdminComponent, canActivate:[AdminGuard]},
       {path: 'account-new', component: AccountsNewAdminComponent, canActivate:[AdminGuard]},
-      {path: 'account-edit', component: AccountEditAdminComponent, canActivate:[AdminGuard]},
+      {path: 'account-edit', component: AccountEditAdminComponent, canActivate:[AdminGuard, EditAdminGuard]},
       {path: 'orders-topay', component: OrderTopayComponent, canActivate:[AdminGuard]},
       {path: 'orders-pending', component: OrderPendingComponent, canActivate:[AdminGuard]},
       {path: 'orders-delivery', component: OrderDeliveryComponent, canActivate:[AdminGuard]},

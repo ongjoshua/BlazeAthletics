@@ -9,8 +9,10 @@ export class AdminDataServices
 {
     adminDataChanged = new Subject<AdminData[]>();
 
+
     private adminData: AdminData[] = [];
     indexNumber: number = null;
+  
 
     getAdminData()
     {
@@ -22,7 +24,6 @@ export class AdminDataServices
 
     getAdmin(index: number)
     {
-      console.log(this.adminData);
       return this.adminData[index];
     }
 

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { AdminData } from 'src/app/models/admin-data-model';
 import { AdminDataServices } from 'src/app/service/admin-data.service';
 import { AdminWriteData } from 'src/app/service/admin-write-data.service';
@@ -16,13 +15,16 @@ export class AccountEditAdminComponent implements OnInit {
 
   index: number = this.adminService.indexNumber;
   adminSubscription: Subscription;
-  adminData: AdminData;
-  adminEditForm: FormGroup;
+  adminData: AdminData = null;
+  adminEditForm: FormGroup; 
 
-  constructor(private adminService: AdminDataServices, private adminWrite: AdminWriteData, private router: Router) {}
+  constructor(private adminService: AdminDataServices, private adminWrite: AdminWriteData, private router: Router) 
+  {
+    
+  }
 
-  ngOnInit(){
-    this.adminData = this.adminService.getAdmin(this.index)
+  ngOnInit(){ 
+    this.adminData = this.adminService.getAdmin(this.index);
     this.adminEditForm = new FormGroup({
       "name": new FormControl(this.adminData.name, [Validators.required]),
       "email": new FormControl(this.adminData.email, [Validators.required, Validators.email]),

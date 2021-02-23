@@ -25,7 +25,6 @@ export class AccountsNewAdminComponent implements OnInit {
         "name": new FormControl(null, [Validators.required]),
         "email": new FormControl(null, [Validators.email, Validators.required]),
         "contactNumber": new FormControl(null, [Validators.required]),
-        "address": new FormControl(null, [Validators.required]),
         "password": new FormControl(null, [Validators.required, Validators.minLength(6)])
       }
     );
