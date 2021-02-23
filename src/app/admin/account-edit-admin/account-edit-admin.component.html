@@ -2,18 +2,7 @@
     <h2 class="text-center">EDIT ACCOUNT</h2>  
     <div class="row content">
   
-      <div class="col-sm-3">
-        <h5>BETTY GO</h5>
-        <img src="http://icons.iconarchive.com/icons/hopstarter/halloween-avatar/1024/Pennywise-icon.png" class="img-responsive" style="width:100%" alt="Image">  
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="inputGroupFile01"
-            aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-        </div>
-      </div>
-  
-  
-      <div class="col-sm-6">      
+      <div class="col-sm-8">      
         <form [formGroup]="adminEditForm" (ngSubmit)="onSubmit()">
             <div class="row">
           <div class="form-group col-sm-12">
@@ -38,16 +27,5 @@
         </div>
         </form>
       </div>
-  
-      <div class="col-sm-3 container" >
-        <h5>LOGIN HISTORY</h5>
-        <ul class="list-group">
-          <li class="list-group-item">08/20/20 9:31 pm</li>
-          <li class="list-group-item">07/04/20 9"08 am</li>
-          <li class="list-group-item">07/29/20 4:15 pm</li>
-          <li class="list-group-item">08/21/20 10:01 am</li>
-        </ul>
-      </div>
-  
     </div>
   </div>

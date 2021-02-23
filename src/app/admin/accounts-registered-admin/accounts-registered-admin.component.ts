@@ -14,7 +14,12 @@ export class AccountsRegisteredAdminComponent implements OnInit, OnDestroy {
 
   adminData: AdminData[];
   adminSubscription: Subscription;
+  searching = false;
   password: string = null;
+  searchIdChecker: string = null;
+  searchId: string = null;
+
+  newSearchAdminData: AdminData[] = [];
 
   constructor(private adminWrite: AdminWriteData, private adminService: AdminDataServices, private adminAuthService: AdminAuthService) { }
 
@@ -47,6 +52,33 @@ export class AccountsRegisteredAdminComponent implements OnInit, OnDestroy {
     this.adminWrite.deleteAdmin(this.adminData[place].UID).subscribe();
     this.adminService.deleteAdmin(place);
     this.adminWrite.putAdminData();
+  }
+
+  onSearch(searchId: string)
+  {
+      this.searchId = searchId;
+      this.searchIdChecker = this.searchId;
+      this.searchNow(); 
+  }
+
+  searchNow()
+  {
+    let search: AdminData[] = [];
+    let j = 0;
+    for(let i = 0; i <= this.adminData.length - 1; i++)
+    {
+      if(this.adminData[i].name.toLowerCase().replace(' ', '').includes(this.searchIdChecker.toLowerCase().replace(' ', '')))
+      {
+        search[j] = this.adminData[i];
+        j++;
+      }
+      else if(this.adminData[i].email.toLowerCase().replace(' ', '').includes(this.searchIdChecker.toLowerCase().replace(' ', '')))
+      {
+        search[j] = this.adminData[i];
+        j++;
+      }
+    }
+    this.newSearchAdminData = search;
   }
 
   onInput(password: string)
