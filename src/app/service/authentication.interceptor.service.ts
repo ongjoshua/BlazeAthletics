@@ -19,7 +19,6 @@ export class AuthenticationInterceptorService
 
             const modifiedReq = req.clone({
                     params: new HttpParams().set('auth', user.token)});
-                    console.log(modifiedReq);
             return next.handle(modifiedReq);
         }));
     }

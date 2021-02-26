@@ -110,6 +110,7 @@ export class AuthenticationService
 
         if(loadedUser.token)
         {
+            this.userToken = userData.id;
             this.user.next(loadedUser);
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.autoLogout(expirationDuration);
@@ -192,7 +193,7 @@ export class AuthenticationService
 
         switch(errorRes.error.error.message)
         {
-          case 'EMAIL_EXISTS':
+          case 'EMAIL_EXISTS': 
             errorMessage = 'This email already exists!';
             break;
           case 'INVALID_PASSWORD':  

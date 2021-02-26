@@ -20,6 +20,5 @@ export class AppComponent implements OnInit{
   {
     this.authService.autoLogin();
     this.adminAuthService.autoLogin();
-    this.adminWrite.getAdmins();
   }
 }

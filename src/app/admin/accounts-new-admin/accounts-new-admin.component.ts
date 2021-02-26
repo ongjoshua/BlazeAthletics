@@ -46,7 +46,7 @@ export class AccountsNewAdminComponent implements OnInit {
     this.adminAuth.adminSignUp(email, password).subscribe(responseData => 
       {
 
-          this.adminDataService.addAdmin(new AdminData(name, responseData.localId, email, contactNumber))
+        this.adminDataService.addAdmin(new AdminData(name, responseData.localId, email, contactNumber))
 
         this.adminWrite.addAdmin(responseData.localId).subscribe(
           response => {
